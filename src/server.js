@@ -1,9 +1,26 @@
-import http from 'node:http'
+import http from "node:http";
+
+const users = []
 
 const server = http.createServer((req, res) => {
-return res.end('Hello world')
-})
+  const { method, url } = req;
 
-server.listen(3333)
+  if (method == "GET" && url == "/users") {
+    
+    return res
+    .setHeader('Content-type', 'application/json')
+    .end(JSON.stringify(users));
+  }
 
+  if (method == "POST" && url == "/user") {
+    users.push({
+        name: 'Aline Edvania', 
+        email: 'alineedvania@gmail.com'
+    })
+    return res.end("Criação  de usuários");
+  }
 
+  return res.end("Hello world");
+});
+
+server.listen(3333);
